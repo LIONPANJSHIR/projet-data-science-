@@ -1,0 +1,545 @@
+```{r}
+
+
+```
+
+# Comment marche un model de machine learning ? {style="color: red"}
+
+Un modèle de machine learning (ou apprentissage automatique) est une méthode algorithmique qui permet à un ordinateur d'apprendre à partir de données et à faire des prédictions ou des décisions sans être explicitement programmé pour cette tâche. Voici comment cela fonctionne généralement :
+
+### 1. **Collecte des données** {style="color: blue"}
+
+Le premier pas dans le développement d'un modèle de machine learning consiste à collecter des données. Ces données peuvent être sous forme de texte, d'images, de données tabulaires, etc. Plus le jeu de données est grand et représentatif, meilleur sera le modèle.
+
+-   **Exemple** : Pour prédire si un email est du spam ou non, il vous faudra des milliers d'emails avec une étiquette indiquant si chaque email est spam ou non.
+
+### 2. **Préparation des données** {style="color: blue"}
+
+Les données doivent être nettoyées et préparées pour être utilisées par le modèle. Cela peut inclure :
+
+-   **Traitement des valeurs manquantes** : Remplir ou supprimer les données manquantes.
+-   **Normalisation ou standardisation** : Mettre les données sur une échelle similaire (par exemple, ramener les valeurs entre 0 et 1).
+-   **Encodage des variables catégorielles** : Transformer des catégories (par exemple, 'homme', 'femme') en un format numérique.
+-   **Exemple** : Utiliser le package `tidyr` ou `janitor` en R pour nettoyer les données.
+
+### 3. **Séparation en ensemble d'entraînement et de test** {style="color: blue"}
+
+Les données sont divisées en deux parties :
+
+-   **Ensemble d'entraînement** : Sert à entraîner le modèle.
+-   **Ensemble de test** : Sert à évaluer la performance du modèle après l'entraînement.
+
+Une proportion classique est 80% pour l'entraînement et 20% pour le test.
+
+### 4. **Choix de l'algorithme** {style="color: blue"}
+
+Différents types de modèles peuvent être utilisés en fonction du problème :
+
+-   **Régression linéaire** : Pour prédire des valeurs continues (par exemple, le prix d'une maison).
+-   **Arbres de décision** : Pour des problèmes de classification ou de régression.
+-   **Réseaux de neurones** : Pour des problèmes complexes comme la reconnaissance d'image.
+-   **Forêts aléatoires, SVM, k-NN** : Autres algorithmes populaires.
+
+**Exemple** : Utiliser la fonction `lm()` en R pour ajuster une régression linéaire.
+
+### 5. **Entraînement du modèle** {style="color: blue"}
+
+Le modèle est ajusté aux données d'entraînement. L'algorithme apprend les relations ou les motifs dans les données grâce à une fonction objectif (comme la minimisation d'une erreur).
+
+-   **Optimisation** : L'algorithme essaie de minimiser une fonction de coût (par exemple, l'erreur quadratique moyenne pour un modèle de régression).
+-   **Hyperparamètres** : Certains algorithmes ont des paramètres à ajuster manuellement (par exemple, la profondeur d'un arbre de décision, ou le taux d'apprentissage d'un réseau de neurones).
+
+### 6. **Évaluation du modèle** {style="color: blue"}
+
+Après l'entraînement, le modèle est testé sur l'ensemble de test pour évaluer sa capacité à généraliser. Des métriques d'évaluation sont utilisées :
+
+-   **Pour un problème de classification** : Précision, rappel, F1-score, matrice de confusion.
+-   **Pour un problème de régression** : Erreur quadratique moyenne (MSE), coefficient de détermination (R²).
+
+**Exemple** : Utiliser `predict()` en R pour faire des prédictions sur les données de test et comparer les prédictions aux vraies valeurs.
+
+### 7. **Amélioration et validation croisée**
+
+Si les résultats ne sont pas satisfaisants, vous pouvez ajuster le modèle, essayer d'autres algorithmes ou utiliser des techniques comme la validation croisée pour améliorer les performances.
+
+-   **Validation croisée** : Diviser les données en plusieurs sous-ensembles pour s'assurer que le modèle est robuste et ne surapprend pas (overfitting).
+-   **Régularisation** : Techniques pour éviter l'overfitting, comme la Lasso, Ridge ou Dropout pour les réseaux de neurones.
+
+### 8. **Déploiement du modèle**
+
+Une fois satisfait des performances, le modèle peut être déployé pour prédire de nouvelles données en production.
+
+``` markdown
+```
+
+En résumé, un modèle de machine learning suit plusieurs étapes, de la collecte de données au déploiement, en passant par l'entraînement et l'évaluation. Le choix de l'algorithme et des techniques dépend du problème à résoudre et des données disponibles.
+
+# Analyse exploratrices des données basiques {style="color:red"}
+
+1.  analyse d'un dataset du covid 19
+
+2.  analyse du dataset diabete
+
+3.  analyse du dataset rechaufement climatique
+
+et pour finir DATASET sur les prix du loyers
+
+### Etapes a suivre pour EDA
+
+Voici les étapes pratiques pour réaliser une **analyse exploratoire des données (EDA)**, indépendamment du type de données. Cela permet de mieux comprendre la structure des données, d’identifier les tendances, les schémas, et les anomalies éventuelles.
+
+### 1. **Compréhension des données**
+
+-   **Objectif** : Se familiariser avec les données.
+-   **Actions** :
+    -   Lire la description du jeu de données : quels sont les objectifs, les variables présentes ?
+    -   Examiner le nombre de lignes (observations) et de colonnes (variables).
+    -   Identifier les types de variables : catégorielles, numériques, dates, etc.
+
+### 2. **Statistiques descriptives**
+
+-   **Objectif** : Obtenir un résumé de chaque variable.
+-   **Actions** :
+    -   Calculer des statistiques de base : moyenne, médiane, variance, écart-type pour les variables numériques.
+    -   Analyser la fréquence ou les proportions pour les variables catégorielles.
+    -   Identifier les distributions : symétriques, biaisées, avec des valeurs extrêmes.
+
+### 3. **Inspection des valeurs manquantes et des valeurs aberrantes**
+
+-   **Objectif** : Détecter les données manquantes et les valeurs anormales qui peuvent fausser l'analyse.
+-   **Actions** :
+    -   Vérifier s'il y a des valeurs manquantes et calculer leur pourcentage pour chaque variable.
+    -   Explorer les valeurs aberrantes (outliers) avec des graphiques comme les boîtes à moustaches (boxplots).
+    -   Décider comment gérer les données manquantes ou aberrantes (imputation, suppression, transformation).
+
+### 4. **Analyse de la distribution des variables**
+
+-   **Objectif** : Visualiser les distributions des données.
+-   **Actions** :
+    -   Pour les variables numériques : tracer des histogrammes ou des densités pour comprendre la distribution (normale, asymétrique, multimodale).
+    -   Pour les variables catégorielles : utiliser des diagrammes en barres pour visualiser les proportions.
+
+### 5. **Analyse des relations entre les variables**
+
+-   **Objectif** : Comprendre comment les variables sont corrélées entre elles.
+-   **Actions** :
+    -   Pour deux variables numériques : créer des diagrammes de dispersion (scatter plots) et calculer les coefficients de corrélation.
+    -   Pour une variable numérique et une variable catégorielle : utiliser des boîtes à moustaches ou des diagrammes en violon pour examiner la distribution des valeurs numériques dans chaque catégorie.
+    -   Pour deux variables catégorielles : construire une table de contingence et visualiser la relation avec un diagramme de barres empilées ou groupées.
+
+### 6. **Exploration des relations multivariées**
+
+-   **Objectif** : Observer les interactions entre plusieurs variables.
+-   **Actions** :
+    -   Utiliser des techniques comme les "pair plots" pour visualiser les relations entre plusieurs paires de variables.
+    -   Analyser la corrélation globale entre toutes les variables numériques avec une matrice de corrélation.
+
+### 7. **Détection de tendances temporelles (si applicable)**
+
+-   **Objectif** : Identifier des tendances ou des motifs dans les séries temporelles.
+-   **Actions** :
+    -   Si les données contiennent des informations temporelles (dates), tracer des graphiques de séries temporelles pour observer les évolutions au fil du temps (variations saisonnières, tendances à long terme).
+
+### 8. **Conclusion sur la qualité des données et les prochaines étapes**
+
+-   **Objectif** : Évaluer l’état des données pour les prochaines étapes (modélisation ou transformation).
+-   **Actions** :
+    -   Résumer les observations : Y a-t-il des problèmes majeurs avec les données ? Des transformations sont-elles nécessaires ?
+    -   Décider des prochaines étapes : faut-il traiter les valeurs manquantes, transformer certaines variables, supprimer des observations ?
+
+Ces étapes permettent de comprendre les données en profondeur avant de procéder à la modélisation ou à une analyse plus poussée.
+
+### Etapes 1
+
+```{r}
+library(readxl)
+library(readr)
+# install.packages("utile.tools")
+titanic3 <- read_excel("data projet/titanic3.xls")
+mobile <- read_csv("data projet/mobile.csv")
+diabete <- read_csv("data projet/diabete.csv")
+decathlon <- read_delim("data projet/decathlon.csv",delim = ";")
+covid19 <- read_excel("data projet/covid19.xlsx")
+head(covid19)
+View(covid19)
+```
+
+```{r}
+head(covid19)
+## un aperçu du dataset 
+# ont peut voir deja qu'il existe deux groupes de patient ceux qui sont negatif et sont qui sont positif 
+```
+
+```{r}
+summary(covid19)
+
+dim(covid19) # dimension du dataset
+str(covid19)
+```
+
+```{r}
+colna <- colSums(is.na(covid19)) / nrow(covid19) 
+barplot(colna)
+
+```
+
+```{r}
+numerique <- covid19[sapply(covid19,is.numeric)]
+charactere <- covid19[sapply(covid19,is.character)]
+```
+
+```{r}
+library(ggplot2)
+#install.packages("GGally")
+library(GGally)
+ggpairs(numerique)
+
+
+```
+
+```{r}
+## suppresion des donnes non viable de plus de 90 %
+colnames(covid)
+dim(covid)
+covid <- colna[colna < 0.9]
+```
+
+```{r}
+covid19[[names(covid)]]
+names(covid)
+```
+
+```{r}
+covid19 <- covid19[-1]
+
+```
+
+```{r}
+covid <- covid19[,colMeans(is.na(covid19)) < 0.9] # suppression des valeur manquantes de plus de 90% 
+covid
+
+```
+
+```{r}
+dim(covid)
+```
+
+```{r}
+# ont va remplacer les valeurs manquantes par la medianne # chose a ne pas faire en pratique 
+library(dplyr)
+
+covid <- covid %>% mutate(across(everything(),~ifelse(is.na(.),median(.,na.rm = T),.)))
+covid <- covid %>% mutate(across(where(is.character),~ifelse(is.na(.),"inconnue",.)))
+```
+
+```{
+```
+
+```{r}
+colMeans(is.na(covid))
+print(paste("Il y a", sum(is.na(covid)), "valeurs manquantes"))
+
+
+```
+
+```{numerique <- covid19[numerique]}
+```
+
+```{r}
+numerique <- covid[,sapply(covid,is.numeric)]
+characterr <- covid[,sapply(covid,is.character)]
+
+dim(numerique)
+# echantillonage  
+df_sample <- numerique %>% sample_n(100,replace = F)
+
+ggpairs(df_sample)
+
+```
+
+```{charactere <- covid19[sapply(covid19, is.character)]}
+```
+
+##### 
+```{r}
+colnames(covid)
+```
+# on peut cree des groupes liee au virus 
+```{r}
+# Sous-ensemble des colonnes liées aux résultats des infections virales
+virus_cols <- c( "Respiratory Syncytial Virus", "Influenza A", "Influenza B", 
+                "Parainfluenza 1", "CoronavirusNL63", "Rhinovirus/Enterovirus", "Coronavirus HKU1", 
+                "Parainfluenza 3", "Chlamydophila pneumoniae", "Adenovirus", "Parainfluenza 4", 
+                "Coronavirus229E", "CoronavirusOC43", "Inf A H1N1 2009", "Bordetella pertussis", 
+                "Metapneumovirus", "Parainfluenza 2", "Influenza B, rapid test", "Influenza A, rapid test")
+
+# Créer un sous-ensemble de ces colonnes
+virus_data <- covid[, virus_cols]
+
+# Afficher les premières lignes
+head(virus_data)
+
+# Sous-ensemble des colonnes liées aux admissions hospitalières
+admission_cols <- c("Patient addmited to regular ward (1=yes, 0=no)", 
+                    "Patient addmited to semi-intensive unit (1=yes, 0=no)", 
+                    "Patient addmited to intensive care unit (1=yes, 0=no)")
+
+# Créer un sous-ensemble pour les données d'admission
+admission_data <- covid[, admission_cols]
+
+# Afficher les premières lignes
+head(admission_data)
+
+
+# Sous-ensemble des colonnes liées aux résultats sanguins
+blood_cols <- c("Hematocrit", "Hemoglobin", "Platelets", "Mean platelet volume", 
+                "Red blood Cells", "Lymphocytes",
+                "Leukocytes", "Basophils", "Mean corpuscular hemoglobin (MCH)", "Eosinophils", 
+                "Mean corpuscular volume (MCV)", "Monocytes", "Red blood cell distribution width (RDW)")
+
+# Créer un sous-ensemble des colonnes sanguines
+blood_data <- covid[, blood_cols]
+
+# Afficher les premières lignes
+head(blood_data)
+
+```
+
+
+```{r}
+attach(covid)
+barplot(table(`SARS-Cov-2 exam result`))
+
+covid %>% ggplot(aes(x=`SARS-Cov-2 exam result`))+
+  geom_bar(aes(fill=`SARS-Cov-2 exam result`),alpha=0.4)+
+  theme_bw()+
+  labs(title= "repartition du test de positivite ",
+         x= "resultats",
+       y="valeurs")
+
+```
+
+```{r}
+
+covid %>% ggplot(aes(x= `SARS-Cov-2 exam result`))+
+  geom_bar(aes(fill= `SARS-Cov-2 exam result`))+
+  coord_polar("x")
+
+attach(covid)
+covid
+
+pie(table(`SARS-Cov-2 exam result`)/ nrow(covid),col=c("cyan","red"))
+# on as 90% de l echantillon qui est teste negatif et 0.1 teste positif 
+
+```
+
+```{r}
+
+ggpairs(blood_data[100:400,])
+
+
+```
+
+```{r}
+summary(blood_data)
+summary(virus_data)
+```
+
+```{r}
+plot(table(`Patient age quantile`),ylab = "nombres",col="red",lw=3)
+
+```
+
+```{r}
+covid %>% ggplot(aes(x=`Patient age quantile`))+
+  geom_bar(aes(fill=`SARS-Cov-2 exam result`))+
+  facet_wrap(~`SARS-Cov-2 exam result`)
+  
+```
+```{r}
+
+ for (i in names(blood_data)) {
+   print(covid %>% ggplot(aes(x= .data[[i]]))+
+     geom_histogram() )
+   
+ }
+
+```
+
+
+```{r}
+for (i in names(blood_data)) {
+  print(covid %>%
+    ggplot(aes(x = .data[[i]])) +  # Utilisation de .data[[i]] pour référencer les colonnes dynamiquement
+    geom_density(fill="pink" , alpha=0.6) +
+    ggtitle(paste("Histogramme de", i)) +  # Ajoute un titre basé sur le nom de la colonne
+    theme_bw())  # Applique un thème minimal
+}
+
+
+```
+
+```{r}
+
+for (i in names(virus_data)) {
+  print(covid %>%
+    ggplot(aes(x = .data[[i]])) +  # Utilisation de .data[[i]] pour référencer les colonnes dynamiquement
+    geom_density(aes(fill= c("red","darkblue","yellow")) , alpha=0.6) +
+    ggtitle(paste("Histogramme de", i)) +  # Ajoute un titre basé sur le nom de la colonne
+    theme_bw())  # Applique un thème minimal
+}
+
+
+```
+
+```{r}
+for (i in names(virus_data)) {
+  print(
+    covid %>%
+      ggplot(aes(x = .data[[i]])) +  # Utilisation de .data[[i]] pour référencer les colonnes dynamiquement
+      geom_bar(aes(fill = `SARS-Cov-2 exam result`), alpha = 0.6) +  # Remplacement de covid[[i]] par une couleur fixe
+      ggtitle(paste("Courbe de densité de", i)) +  # Correction du titre pour refléter la densité
+      theme_bw() #+
+     # facet_grid(~virus_data[[i]])# Applique un thème épuré
+  )
+}
+
+
+```
+```{r}
+for (i in names(blood_data)) {
+  print(
+    covid %>%
+      ggplot(aes(x = .data[[i]])) +  # Utilisation de .data[[i]] pour référencer les colonnes dynamiquement
+      geom_boxplot(fill = "blue", alpha = 0.6) +  # Remplacement de covid[[i]] par une couleur fixe
+      ggtitle(paste("Courbe de densité de", i)) +  # Correction du titre pour refléter la densité
+      theme_bw()  # Applique un thème épuré
+  )
+}
+
+```
+
+```{r}
+histo <- hist(`Patient age quantile`,freq = T,include.lowest = T,ylab = "frequences",main = "plygonne des effectifs  d age")
+lines(histo$mids,histo$counts,lw=2,col="black")
+points(histo$mids,histo$counts,cex=1.6,pch=19)
+
+
+# 
+# hist(`Patient age quantile`,freq = T,plot = F)
+# histo
+
+```
+```{r}
+bb <- boxplot(`Patient age quantile`~`SARS-Cov-2 exam result`)
+title("boites a moustache patient negative vs positive ")# pas d outliers ,ni de valeur atypique
+bwplot(`Patient age quantile`~`SARS-Cov-2 exam result`,pch="|")
+bb
+```
+
+```{r}
+
+IQR(numerique)
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
